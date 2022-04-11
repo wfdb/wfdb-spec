@@ -8,21 +8,31 @@ WFDB is a set of file standards designed for reading and storing physiologic sig
 
 Example signal types include [ECG](https://en.wikipedia.org/wiki/Electrocardiography) and [EEG](https://en.wikipedia.org/wiki/Electroencephalography). Example annotation types include automated machine-labelled heart-beats, and clinician comments regarding specific signal artifacts.
 
-There are several available [software packages](#wfdb-software) that implement the WFDB specifications. Consider using one of them if you want to conduct research or build algorithms using phyiologic data.
+There are several available [software packages](#wfdb-software) that implement the WFDB specifications. Consider using one of them if you want to conduct research or build algorithms using physiologic data.
 
 ### Background
 
-The original WFDB Software Package written in C, along with the file specifications, was created by George B. Moody in 1989.
+The original WFDB Software Package written in C, along with a set of new file specifications, was created by George B. Moody in 1989.
 
 While working at the [Lab for Computational Physiology](https://lcp.mit.edu/) in the Harvard-MIT Division of Health Sciences and Technology, George also created [PhysioNet](http://physionet.org), a platform that hosts many WFDB-related databases, software packages, and resources.
 
-As the preferred programming tools of the scientific industry evolved over time, the LCP created more [WFDB software packages](#wfdb-software) to faciliate more effective research and usage. Traditionally, the original WFDB Software Package and the specifications were inextricably linked.
+As the preferred programming tools of the scientific industry evolved over time, members of the LCP created more [WFDB software packages](#wfdb-software) to faciliate more effective research and usage.
+
+### WFDB File Specifications
+
+Traditionally, the original WFDB Software Package and the specifications were inextricably linked. This has led to ambiguity about what "WFDB format" actually means.
+
+There is a set of [signal](./spec/SIGNALS.md) and [annotation](./spec/ANNOTATIONS.md) file formats that were invented along with and supported by the WFDB software package. This specification explicitly states that the files should be called "WFDB format."
+
+Historically, these file formats have also been referred to as "MIT format." This term should NOT be further used.
+
+There are also other file formats that the WFDB software package supports reading, including [EDF](https://www.edfplus.info/) and AHA formats. These file formats are NOT part of the WFDB specification, despite being frequently referred to as "WFDB compatible." This term should also NOT be further used.
 
 ### Current State and Future Goals
 
 > Currently, the WFDB specifications are mostly located in the WFDB Programmer's/Application guides. We are working to migrate the documentation to this repository in order to separate the spec from the implementation.
 
-The initial WFDB working group has been set up to coordinate efforts to make WFDB more useful, popular, and accessible. Methods include designing better APIS, improving performance, improving documentation, adding new file formats, adding support for more languages, and more.
+WFDB is under active development (in 2022)! The initial WFDB working group has been set up to coordinate efforts to make WFDB more useful, popular, and accessible. Methods include designing better APIS, improving performance, improving documentation, adding new file formats, adding support for more languages, and more.
 
 The current members of the working group are:
 
