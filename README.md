@@ -2,89 +2,31 @@
 
 This repository is used to document specifications for Waveform Database (WFDB) files and concepts. See the [spec](./spec) directory for the formal documentation.
 
-## About WFDB
+Go to <https://wfdb.io> for an overview of WFDB, along with a list of available WFDB software packages.
 
-WFDB is a set of file standards designed for reading and storing physiologic signal data, and associated annotations.
+## WFDB File Specifications
 
-Example signal types include [ECG](https://en.wikipedia.org/wiki/Electrocardiography) and [EEG](https://en.wikipedia.org/wiki/Electroencephalography). Example annotation types include automated machine-labelled heart-beats, and clinician comments regarding specific signal artifacts.
+The specification details a set of [signal](./spec/SIGNALS.md) and [annotation](./spec/ANNOTATIONS.md) file formats, known as "WFDB format."
 
-There are several available [software packages](#wfdb-software) that implement the WFDB specifications. Consider using one of them if you want to conduct research or build algorithms using physiologic data.
+These file formats were invented along with, and used by, the original WFDB software package. Traditionally, the software package and the specifications were inextricably linked, which has led to ambiguity about what "WFDB format" actually means. Historically, these file formats have also been referred to as "MIT format." This term should NOT be further used.
 
-### Background
+There are also other file formats that the original WFDB software package supports reading, including [EDF](https://www.edfplus.info/) and AHA. These file formats are NOT part of the WFDB specification, despite being frequently referred to as "WFDB compatible." This term should also NOT be further used.
 
-The original WFDB Software Package written in C, along with a set of new file specifications, was created by George B. Moody in 1989.
-
-While working at the [Lab for Computational Physiology](https://lcp.mit.edu/) in the Harvard-MIT Division of Health Sciences and Technology, George also created [PhysioNet](http://physionet.org), a platform that hosts many WFDB-related databases, software packages, and resources.
-
-As the preferred programming tools of the scientific industry evolved over time, members of the LCP created more [WFDB software packages](#wfdb-software) to faciliate more effective research and usage.
-
-### WFDB File Specifications
-
-Traditionally, the original WFDB Software Package and the specifications were inextricably linked. This has led to ambiguity about what "WFDB format" actually means.
-
-There is a set of [signal](./spec/SIGNALS.md) and [annotation](./spec/ANNOTATIONS.md) file formats that were invented along with and supported by the WFDB software package. This specification explicitly states that the files should be called "WFDB format."
-
-Historically, these file formats have also been referred to as "MIT format." This term should NOT be further used.
-
-There are also other file formats that the WFDB software package supports reading, including [EDF](https://www.edfplus.info/) and AHA formats. These file formats are NOT part of the WFDB specification, despite being frequently referred to as "WFDB compatible." This term should also NOT be further used.
-
-### Current State and Future Goals
-
-> Currently, the WFDB specifications are mostly located in the WFDB Programmer's/Application guides. We are working to migrate the documentation to this repository in order to separate the spec from the implementation.
-
-WFDB is under active development (in 2022)! The initial WFDB working group has been set up to coordinate efforts to make WFDB more useful, popular, and accessible. Methods include designing better APIS, improving performance, improving documentation, adding new file formats, adding support for more languages, and more.
-
-The current members of the working group are:
-
-- X
-- X
-
-We strongly encourage the open community to contribute to the software, documentation, and [discussions](<(https://github.com/wfdb/wfdb-spec/discussions)>).
-
-## WFDB Software
-
-The WFDB specification is openly-licensed, so anyone can implement and modify software according to the spec. Here are the main packages and implementations that we officially recognize:
-
-- [WFDB Software Package](https://github.com/bemoody/wfdb) - The original software package written in C. Contains the core library, command line tools, and WAVE. See also the [PhysioNet publication](https://physionet.org/content/wfdb/). Associated documents:
-  - [WFDB Programmer's Guide](https://physionet.org/physiotools/wpg/) - Guide to programming with the WFDB C library.
-  - [WFDB Applications Guide](https://physionet.org/physiotools/wag/wag.htm) - Guide to using the WFDB C compiled command line tools.
-- [WFDB Python Package](https://github.com/MIT-LCP/wfdb-python/) - A native Python implementation of WFDB. See also the [PhysioNet publication](https://physionet.org/content/wfdb-python/).
-- [WFDB Toolbox for Matlab](https://github.com/ikarosilva/wfdb-app-toolbox) - A set of Java, GUI, and m-code wrapper functions, which make system calls to WFDB Software Package and other applications.
-- [LightWAVE](https://github.com/bemoody/lightwave) - A lightweight web-based waveform and annotation viewer and editor. Available for use at <http://physionet.org/lightwave>
-
-There are also many WFDB-related software toolkits for analyzing waveform data hosted on <http://physionet.org>.
-
-## Why to Use WFDB
-
-### Availability of Data
-
-There is a LOT of waveform data in WFDB format on <http://physionet.org>: tens of terrabytes, and growing. For this reason, WFDB is already very widely used.
-
-Notable examples include:
-
-- [The MIT-BIH Arrhythmia Database](https://physionet.org/content/mitdb/)
-- [The MIMIC-III Waveform Database](https://physionet.org/content/mimic3wdb/1.0/), which is 6.7TB, and its [Matched Subset](https://physionet.org/content/mimic3wdb-matched/1.0/).
-
-### Standards and Software
-
-Trying to store many hours or days of multi-channel signals recorded at 100+ Hz in text formats such as CSV, is highly suboptimal, both for cost, and performance (even with 2022 levels of storage and compute). WFDB contains several binary formats for effective storage and data streaming. In addition, the WFDB software provides many utilities for visualizing and analyzing the data.
-
-Signal file formats for physiologic waveforms are currently very scattered, and oftenly proprietary, closed-sourced, and application specific for their owning institutions. WFDB will always be open-source and continually developed for the benefit of the wider community. Its usage is not tied to any proprietary or paid software packages, platforms, or vendors.
+> Currently, the WFDB specifications are mostly located in the WFDB [Programmer's](https://physionet.org/physiotools/wpg/)/[Application](https://physionet.org/physiotools/wag/wag.htm) guides. We are working to migrate the documentation to this repository in order to separate the spec from the implementation.
 
 ## Discussions and Issues
 
-We aim to create a mailing list soon.
-
-Please use the [discussions](https://github.com/wfdb/wfdb-spec/discussions) section for:
+We strongly encourage WFDB users to participate in the [discussions](https://github.com/wfdb/wfdb-spec/discussions). Please use the discussions section for:
 
 - Discussing new ideas and feature requests
-- General questions
+- General questions and comments
 
 Examples:
 
+- "WFDB is very difficult to understand as a beginner"
 - "Exploration of a new WFDB annotation file format"
 - "Exploration of a new WFDB record format"
-- "Should I worry about the endianness of my machine when choosing a file format to use?"
+- "Should I worry about the endianness of my machine when choosing a file format?"
 
 Please use [issues](https://github.com/wfdb/wfdb-spec/issues) for:
 
