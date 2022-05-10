@@ -1,7 +1,7 @@
 # WFDB Header Files
 
 A WFDB record is composed of a header file, and zero or more signal
-files. A header file is composed of Unicode-encoded text, and contains
+files. A header file is composed of UTF-8 encoded text, and contains
 information about the subject (person), the recording, and the signals
 recorded.
 
