@@ -346,7 +346,7 @@ Each segment specification line contains the following fields:
 
 ## Example Header Files
 
-### Example 1 (MIT DB record 100)
+### Example 1: MIT DB Record 100
 
 ```txt
 100 2 360 650000
@@ -380,87 +380,24 @@ Finally, the last two lines contain info strings. The first info
 string specifies the sex and age of the subject and data about the
 recording, and the second lists the subject’s medications.
 
-### Example 2: AHA DB record 7001
+### Example 2: Modified AHA DB Record 7001
 
 ```txt
 7001 2 250 525000
-/db1/data0/d0.7001 8 100 10 0 -53 -1279 0 ECG signal 0
-/db1/data1/d1.7001 8 100 10 0 -69 15626 0 ECG signal 1
+d0.7001 8 100 10 0 -53 -1279 0 ECG signal 0
+d1.7001 8 100 10 0 -69 15626 0 ECG signal 1
 ```
 
-This header illustrates how on-line AHA DB records were formerly kept
-at MIT.
+Each signal is kept in its own signal file, specified by its filename.
+The signals are kept in 8-bit first difference format, but the
+sampling rate requires that the signals be scaled down (from 12-bit to
+10-bit ADC resolution) to stay within the slew rate limits imposed by
+the format. Note that signal checksums (-1279 and 15626 in this
+example) are derived from the reconstructed sample values, and not
+from the first differences; thus they should not change if the signals
+are reformatted.
 
-Each signal is kept in its own signal file, specified by its absolute
-pathname. As shown here, AHA DB records may be kept in 8-bit first
-difference format, but the sampling rate requires that the signals be
-scaled down (from 12-bit to 10-bit ADC resolution) to stay within the
-slew rate limits imposed by the format.
-
-The signal checksums, -1279 and 15626, are derived from the
-reconstructed sample values, and not from the first differences; thus
-they should not change if the signals are reformatted.
-
-### Example 3: (Local record 8l)
-
-```txt
-8l 16
-data0 8
-data1 8
-...
-
-data15 8
-```
-
-This example illustrates how relative pathnames can be used for
-user-created records. If data files in the proper format are created
-in any of the directories named by the WFDB environment variable, they
-become the signal files for record 8l.
-
-### Example 4: Piped record 16x4
-
-```txt
-# Piped record 16x4. Use this record to read or write 4 signals
-# using the standard I/O.
-16x4 4
-- 16
-- 16
-- 16
-- 16
-```
-
-This example illustrates several features not seen in the earlier
-examples. The special file name ‘-’ means that samples will be read
-from the standard input or written to the standard output when using
-this record. All four signals are associated with the same file. The
-signals are kept in 16-bit amplitude format. The example includes two
-comment lines, which are ignored by the WFDB library functions that
-read header files.
-
-### Example 5: "ahatape" header file
-
-```txt
-# Use this record on a UNIX system to read directly
-# from a 9-track AHA DB distribution tape with
-# 4096-byte blocks. The tape must be positioned
-# to the beginning of the ECG data file before
-# using this record.
-
-ahatape 2 250
-/dev/nrmt0 16 0 12 0 0 0 4096
-/dev/nrmt0 16 0 12 0 0 0 4096
-```
-
-Both signals are stored in the same file: /dev/nrmt0, the
-non-rewinding raw 9-track tape drive (on some systems, the name of
-this device may differ). The block size must be specified in this
-case, since I/O to or from a raw device (character special file) is
-not buffered by the operating system and must be performed in the
-units appropriate to the device (in this case, the tape block size).
-AHA DB tapes written at 1600 bpi contain 4096 bytes per block (i.e.,
-1024 two-byte samples from each of the two signals).
-
-### Example 6: Multi-segment header file
+### Example 3: Multi-segment Header File
 
 ```txt
 multi/3 2 360 45000
