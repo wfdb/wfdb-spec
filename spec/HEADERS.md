@@ -205,9 +205,10 @@ From left to right in each line, the fields are:
     This field is surrounded by parentheses: '()', and is not
     separated from the previous field by whitespace.
 - **Units** [optional]:
-  - A character string without embedded whitespace that specifies the
-    type of physical unit. If the units field is absent, the physical
-    unit may be assumed to be one millivolt.
+  - A character string without embedded whitespace or ASCII control
+    characters, that specifies the type of physical unit. If this
+    field is absent, the physical unit may be assumed to be one
+    millivolt.
   - This field can be present only if the ADC gain is also present. It
     follows the baseline field if that field is present, or the gain
     field if the baseline field is absent. This field is separated
@@ -261,11 +262,12 @@ From left to right in each line, the fields are:
   - This field can be present only if the checksum is present. It is
     separated from the previous field by whitespace.
 - **Description** [optional]:
-  - AKA, the signal name. Any text between the block size field and
-    the end of the line is taken to be a description of the signal.
-    Unlike the other fields in the header file, the description may
-    include embedded spaces; note that whitespace between the block
-    size and description fields is not considered to be part of the
+  - AKA, the signal name. Any text, excluding ASCII control
+    characters, between the block size field and the end of the line
+    is taken to be a description of the signal. Unlike the other
+    fields in the header file, the description may include embedded
+    spaces; note that whitespace between the block size and
+    description fields is not considered to be part of the
     description, however.
   - This field can be present only if the block size is present.
 
