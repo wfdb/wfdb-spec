@@ -11,12 +11,12 @@ parse the information.
 
 ## File Version History
 
-A specification, called **WFDB Header File version 10**, was
-formalized in May 2022. This is based on the information set in the
-[WFDB Application Guide](https://www.physionet.org/physiotools/wag/header-5.htm),
-and the behavior of the original WFDB software package.
+> This draft specification, called **WFDB Header File version 10**, is
+> in the process of being finalized.
 
-This complete format was first specified in and supported by WFDB
+This is based on the information set in the
+[WFDB Application Guide](https://www.physionet.org/physiotools/wag/header-5.htm),
+and the behavior of the original WFDB software package, as of WFDB
 v10.4.0, which was released on 2006-03-02. This format extended the
 format released in WFDB v10.0.0, in a backwards compatible manner, by
 adding new fields. Thus, a header file adhering to the WFDB v10.0.0
