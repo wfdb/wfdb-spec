@@ -63,6 +63,7 @@ from left to right:
     rather than signal specification lines. The number of segments
     must be greater than zero. A value of 1 in this field is legal,
     though unlikely to be useful.
+  - If this field is missing, it is interpreted to be undefined.
   - This field is separated from the record name field by a '/', not
     by whitespace.
 - **Number of signals**:
@@ -75,29 +76,35 @@ from left to right:
   - This number can be expressed in any format legal for scanf(3)
     input of floating point numbers (thus '360', '360.', '360.0', and
     '3.6e2' are all legal and equivalent). The sampling frequency must
-    be greater than zero; if it is missing, a value of 250 is assumed.
+    be greater than zero.
+  - If this field is missing, it is interpreted to be 250.
   - This field is separated from the previous field by whitespace.
 - **Counter frequency** (in ticks per second) [optional]:
   - This field is a floating-point number, in the same format as the
     sampling frequency. The sampling and counter frequencies are used
     by strtim to convert strings beginning with ‘c’ into sample
     intervals. Typically, the counter frequency may be derived from an
-    analog tape counter, or from page numbers in a chart recording. If
-    the counter frequency is absent or not positive, it is assumed to
-    be equal to the sampling frequency.
+    analog tape counter, or from page numbers in a chart recording.
+  - If this field is missing or not positive, it is interpreted to be
+    equal to the sampling frequency.
   - It can be present only if the sampling frequency is also present.
     This field is separated from the sampling frequency by a '/', not
     by whitespace.
 - **Base counter value** [optional]:
   - A floating-point number that specifies the counter value
-    corresponding to sample 0. If absent, it is taken to be zero.
+    corresponding to sample 0.
+  - If this field is missing, it is interpreted to be 0.
   - This field can be present only if the counter frequency is also
     present. This field is surrounded by parentheses: '()', and is not
     separated from the previous field by whitespace.
 - **Number of samples per signal** [optional]:
   - AKA, the signal length, in samples. If it is zero or missing, the
     number of samples is unspecified and checksum verification of the
-    signals is disabled.
+    signals is disabled. This usually occurs when the record/signals
+    are provided as an unbounded stream, or are still undergoing
+    writing. In all other cases, this value should be set.
+  - If this field is zero or missing, it is interpreted to be
+    undefined.
   - This field can be present only if the sampling frequency is also
     present. This field is separated from the previous field by
     whitespace.
@@ -105,6 +112,7 @@ from left to right:
   - Gives the time of day that corresponds to the beginning of the
     record, in `HH:MM:SS` format, using a 24-hour clock. eg.
     `13:05:00` and `13:5:0` both represent 1:05 pm.
+  - If this field is missing, it is interpreted to be undefined.
   - This field can be present only if the number of samples is also
     present. This field is separated from the previous field by
     whitespace.
@@ -112,6 +120,7 @@ from left to right:
   - It contains the date that corresponds to the beginning of the
     record, in `DD/MM/YYYY` format (e.g., `25/4/1989` is 25 April
     1989).
+  - If this field is missing, it is interpreted to be undefined.
   - This field can be present only if the base time is also present.
     This field is separated from the previous field by whitespace.
 
@@ -154,6 +163,7 @@ From left to right in each line, the fields are:
     base sampling frequency are not supported. A common use for this
     field is to enable associating signals with different sampling
     frequencies, with the same record.
+  - If this field is missing, it is interpreted to be 1.
   - This field is separated from the previous field by an 'x'.
 - **Skew** [optional]:
   - Ideally, within a given record, samples of different signals with
@@ -167,11 +177,8 @@ From left to right in each line, the fields are:
     field may be inserted into the header file to indicate the
     (positive) number of samples of the signal that are considered to
     precede sample 0. These samples, if any, are included in the
-    checksum, but cannot be returned by getvec or getframe (thus the
-    checksum need not be changed if the skew field is inserted or
-    modified). WFDB library versions 9.1 and earlier ignore this field
-    if it is present; later versions correctly deskew signals in
-    accordance with the contents of this field.
+    checksum.
+  - If this field is missing, it is interpreted to be 0.
   - This field is separated from the previous field by a ':'.
 - **Byte offset** [optional]:
   - Normally, signal files include only sample data. If a signal file
@@ -182,33 +189,32 @@ From left to right in each line, the fields are:
     the same for all signals within a given group (use the skew field
     to correct for intersignal skew). This feature is provided only to
     simplify the task of reading non-WFDB signal files.
+  - If this field is missing, it is interpreted to be 0.
   - This field is separated from the previous field by a '+'.
 - **ADC gain** (ADC units per physical unit) [optional]:
   - A floating-point number that specifies the difference in sample
     values that would be observed if a step of one physical unit
     occurred in the original analog signal. For ECGs, the gain is
     usually roughly equal to the R-wave amplitude in a lead that is
-    roughly parallel to the mean cardiac electrical axis. If the gain
-    is zero or missing, this indicates that the signal amplitude is
-    uncalibrated; in such cases, a value of 200 ADC units per physical
-    unit is assumed.
+    roughly parallel to the mean cardiac electrical axis.
+  - If this field is zero or missing, this indicates that the signal
+    amplitude is uncalibrated, but the value is interpreted to be 200.
   - This field is separated from the previous field by whitespace.
 - **Baseline** (ADC units) [optional]:
   - An integer that specifies the sample value corresponding to 0
-    physical units. If absent, the baseline is taken to be equal to
-    the ADC zero. Note that the baseline need not be a value within
+    physical units. Note that the baseline need not be a value within
     the ADC range; for example, if the ADC input range corresponds to
     200-300 degrees Kelvin, the baseline is the (extended precision)
-    value that would map to 0 degrees Kelvin. WFDB library versions
-    5.0 and earlier ignore baseline fields.
+    value that would map to 0 degrees Kelvin.
+  - If this field is missing, it is interpreted to be equal to the ADC
+    zero.
   - This field can be present only if the ADC gain is also present.
     This field is surrounded by parentheses: '()', and is not
     separated from the previous field by whitespace.
 - **Units** [optional]:
   - A character string without embedded whitespace or ASCII control
-    characters, that specifies the type of physical unit. If this
-    field is absent, the physical unit may be assumed to be one
-    millivolt.
+    characters, that specifies the type of physical unit.
+  - If this field is missing, it is interpreted to be in millivolts.
   - This field can be present only if the ADC gain is also present. It
     follows the baseline field if that field is present, or the gain
     field if the baseline field is absent. This field is separated
@@ -216,10 +222,10 @@ From left to right in each line, the fields are:
 - **ADC resolution** (bits) [optional]:
   - It specifies the resolution of the analog-to-digital converter
     used to digitize the signal. Typical ADCs have resolutions between
-    8 and 16 bits. If this field is missing or zero, the default value
-    is 12 bits for amplitude-format signals, or 10 bits for
-    difference-format signals (unless a lower value is specified by
-    the format field).
+    8 and 16 bits.
+  - If this field is missing or zero, it is interpreted to be 12 bits
+    for amplitude-format signals, or 10 bits for difference-format
+    signals, unless a lower value is specified by the format field.
   - This field can be present only if the ADC gain is also present.
     This field is separated from the previous field by whitespace.
 - **ADC zero** [optional]:
@@ -230,14 +236,15 @@ From left to right in each line, the fields are:
     (offset binary) ADC usually produces a non-zero value in the
     middle of its range. Together with the ADC resolution, the
     contents of this field can be used to determine the range of
-    possible sample values. If this field is missing, a value of zero
-    is assumed.
+    possible sample values.
+  - If this field is missing, it is interpreted to be 0.
   - This field can be present only if the ADC resolution is also
     present. It is separated from the previous field by whitespace.
-- Initial value [optional]:
+- **Initial value** [optional]:
   - Specifies the value of the first sample in the signal, but is used
-    only if the signal is stored in difference format. If this field
-    is missing, a value equal to the ADC zero is assumed.
+    only if the signal is stored in difference format.
+  - If this field is missing, it is interpreted to be equal to the ADC
+    zero.
   - This field can be present only if the ADC zero is also present.
 - **Checksum** [optional]:
   - It is a 16-bit signed checksum of all samples in the signal. (Thus
@@ -247,6 +254,7 @@ From left to right in each line, the fields are:
     field is compared against a computed checksum to verify that the
     signal file has not been corrupted. A value of zero may be used as
     a field placeholder if the number of samples is unspecified.
+  - If this field is missing, it is interpreted to be undefined.
   - This field can be present only if the initial value is also
     present. It is separated from the previous field by whitespace.
 - **Block size** [optional]:
@@ -259,6 +267,7 @@ From left to right in each line, the fields are:
     the associated file lacks I/O driver support for fseek(3)
     operations.) All signals belonging to the same signal group have
     the same block size.
+  - If this field is missing, it is interpreted to be zero.
   - This field can be present only if the checksum is present. It is
     separated from the previous field by whitespace.
 - **Description** [optional]:
@@ -269,6 +278,7 @@ From left to right in each line, the fields are:
     spaces; note that whitespace between the block size and
     description fields is not considered to be part of the
     description, however.
+  - If this field is missing, it is interpreted to be undefined.
   - This field can be present only if the block size is present.
 
 ### Comment Lines
@@ -286,8 +296,8 @@ optional.
 ## Multi-Segment Headers
 
 A multi-segment header must begin with a record line, in the same
-[format](#record-lines) as that of a single-segment record. The
-"number of segments" field must be present and greater than zero.
+[format](#record-line) as that of a single-segment record. The "number
+of segments" field must be present and greater than zero.
 
 Each non-empty, non-comment line following the record line in the
 top-level header file of a multi-segment record contains
@@ -370,13 +380,12 @@ The gain for each signal was the (default) 200 ADC units per millivolt
 offset such that its output was 1024 ADC units given an input exactly
 in the middle of its range.
 
-The baseline is not given explicitly, but may be assumed to be equal
-to the ADC zero value of 1024. The first samples acquired had values
-of 995 and 1011 (i.e., both signals began slightly below 0 VDC). The
-checksums of the 650000 samples are -22131 and 20052, and I/O may be
-performed in blocks of any desired size, since the block size fields
-are zero. The signal descriptions specify which leads were used: MLII
-and V5.
+The baseline is not given explicitly, and is thus defaults to the ADC
+zero value of 1024. The first samples acquired had values of 995 and
+1011 (i.e., both signals began slightly below 0 VDC). The checksums of
+the 650000 samples are -22131 and 20052, and I/O may be performed in
+blocks of any desired size, since the block size fields are zero. The
+signal descriptions specify which leads were used: MLII and V5.
 
 Finally, the last two lines contain info strings. The first info
 string specifies the sex and age of the subject and data about the
