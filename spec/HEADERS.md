@@ -245,7 +245,8 @@ From left to right in each line, the fields are:
     only if the signal is stored in difference format.
   - If this field is missing, it is interpreted to be equal to the ADC
     zero.
-  - This field can be present only if the ADC zero is also present.
+  - This field can be present only if the ADC zero is also present. It
+    is separated from the previous field by whitespace.
 - **Checksum** [optional]:
   - It is a 16-bit signed checksum of all samples in the signal. (Thus
     the checksum is independent of the storage format.) If the entire
