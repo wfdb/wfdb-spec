@@ -9,6 +9,10 @@ In some sense, the header file is what defines the record. When
 processing a record, the first step is to read the header file and
 parse the information.
 
+This document describes the classic header syntax. A header file can
+also be written in JSON, as described in
+[HEADERS-JSON.md](./HEADERS-JSON.md).
+
 ## File Version History
 
 > This draft specification, called **WFDB Header File version 10**, is

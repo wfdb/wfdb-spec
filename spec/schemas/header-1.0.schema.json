@@ -1,0 +1,120 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "WFDB JSON header file, version 1.0",
+  "description": "See spec/HEADERS-JSON.md for the meaning of each field.",
+  "type": "object",
+  "required": ["wfdb_header_version", "record_name"],
+  "properties": {
+    "wfdb_header_version": { "const": "1.0" },
+    "record_name": { "$ref": "#/$defs/record_name" },
+    "sampling_frequency": { "type": "number", "exclusiveMinimum": 0 },
+    "counter_frequency": { "type": "number", "exclusiveMinimum": 0 },
+    "base_counter": { "type": "number" },
+    "samples_per_signal": { "type": "integer", "minimum": 0 },
+    "start_time": {
+      "type": "string",
+      "pattern": "^([01][0-9]|2[0-3]):[0-5][0-9]:[0-5][0-9](\\.[0-9]{1,6})?$"
+    },
+    "start_date": {
+      "type": "string",
+      "pattern": "^[0-9]{4}-(0[1-9]|1[0-2])-(0[1-9]|[12][0-9]|3[01])$"
+    },
+    "number_of_signals": { "type": "integer", "minimum": 0 },
+    "files": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/file" }
+    },
+    "segments": {
+      "type": "array",
+      "minItems": 1,
+      "items": { "$ref": "#/$defs/segment" }
+    },
+    "comments": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/line_text" }
+    }
+  },
+  "patternProperties": { "^x-": true },
+  "additionalProperties": false,
+  "dependentRequired": {
+    "start_date": ["start_time"],
+    "segments": ["number_of_signals"],
+    "number_of_signals": ["segments"]
+  },
+  "not": { "required": ["files", "segments"] },
+  "$defs": {
+    "record_name": {
+      "type": "string",
+      "pattern": "^[A-Za-z0-9_-]{1,50}$"
+    },
+    "line_text": {
+      "description": "Text that fits on one line: no control characters.",
+      "type": "string",
+      "pattern": "^[^\\u0000-\\u001F\\u007F]*$"
+    },
+    "file": {
+      "type": "object",
+      "required": ["name", "format", "signals"],
+      "properties": {
+        "name": {
+          "oneOf": [
+            {
+              "type": "string",
+              "pattern": "^[A-Za-z0-9_][A-Za-z0-9_.-]*$"
+            },
+            { "type": "null" }
+          ]
+        },
+        "format": { "type": "integer", "minimum": 0 },
+        "byte_offset": { "type": "integer", "minimum": 0 },
+        "block_size": { "type": "integer" },
+        "signals": {
+          "type": "array",
+          "minItems": 1,
+          "items": { "$ref": "#/$defs/signal" }
+        }
+      },
+      "patternProperties": { "^x-": true },
+      "additionalProperties": false
+    },
+    "signal": {
+      "type": "object",
+      "properties": {
+        "description": { "$ref": "#/$defs/line_text" },
+        "samples_per_frame": { "type": "integer", "minimum": 1 },
+        "skew": { "type": "integer", "minimum": 0 },
+        "adc_gain": { "type": "number", "not": { "const": 0 } },
+        "baseline": { "type": "integer" },
+        "units": {
+          "type": "string",
+          "pattern": "^[^\\s\\u0000-\\u001F\\u007F]+$"
+        },
+        "adc_resolution": { "type": "integer", "minimum": 1 },
+        "adc_zero": { "type": "integer" },
+        "initial_value": { "type": "integer" },
+        "checksum": {
+          "type": "integer",
+          "minimum": -32768,
+          "maximum": 32767
+        }
+      },
+      "patternProperties": { "^x-": true },
+      "additionalProperties": false
+    },
+    "segment": {
+      "type": "object",
+      "required": ["record", "length"],
+      "properties": {
+        "record": {
+          "oneOf": [
+            { "$ref": "#/$defs/record_name" },
+            { "type": "null" }
+          ]
+        },
+        "length": { "type": "integer", "minimum": 0 }
+      },
+      "patternProperties": { "^x-": true },
+      "additionalProperties": false
+    }
+  }
+}

@@ -10,7 +10,7 @@ Records are identified by record names of up to 50 characters. A record name is 
 
 There is no single 'record file'. A record is comprised of potentially several files:
 
-- One header file. The `record name` field is specified in the header file, and the file itself must be named: `<record_name>.hea`. See the [headers page](./HEADERS.md) for details.
+- One header file. The `record name` field is specified in the header file, and the file itself must be named: `<record_name>.hea`. The header file may use the classic syntax, or JSON. See the [headers page](./HEADERS.md) and the [JSON headers page](./HEADERS-JSON.md) for details.
 - Zero or more signal files. The names of the signal files are specified in the header file. The first part of each file name is not required to, but does conventionally match the record name. ie. `<record_name>.dat` or `<record_name>_1.dat`. See the [signals page](./SIGNALS.md) for details.
 
 A record may also have zero or more associated annotation files. However, the header file does not have any structured fields which specify associated annotation files, therefore the annotations are not considered _part of_ the record. Annotation files are identified to be associated with a record primarily by having the first parts of their file names fully matching that of the record. ie. `<record_name>.qrs`. See the [annotations page](./ANNOTATIONS) for details.
