@@ -1,0 +1,15 @@
+{
+  "wfdb_header_version": "1.0",
+  "record_name": "multi_var",
+  "sampling_frequency": 125,
+  "samples_per_signal": 3000,
+  "start_time": "00:31:25.894",
+  "start_date": "2023-10-10",
+  "number_of_signals": 2,
+  "segments": [
+    { "record": "multi_var_layout", "length": 0 },
+    { "record": "multi_var_0001", "length": 1000 },
+    { "record": null, "length": 500 },
+    { "record": "multi_var_0002", "length": 1500 }
+  ]
+}

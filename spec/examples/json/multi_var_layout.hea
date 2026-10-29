@@ -1,0 +1,30 @@
+{
+  "wfdb_header_version": "1.0",
+  "record_name": "multi_var_layout",
+  "sampling_frequency": 125,
+  "samples_per_signal": 0,
+  "files": [
+    {
+      "name": null,
+      "format": 0,
+      "signals": [
+        {
+          "description": "II",
+          "adc_gain": 83,
+          "units": "mV",
+          "adc_resolution": 15,
+          "adc_zero": 0,
+          "initial_value": -16384
+        },
+        {
+          "description": "ABP",
+          "adc_gain": 1,
+          "units": "mmHg",
+          "adc_resolution": 9,
+          "adc_zero": 0,
+          "initial_value": -256
+        }
+      ]
+    }
+  ]
+}

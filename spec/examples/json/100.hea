@@ -1,0 +1,31 @@
+{
+  "wfdb_header_version": "1.0",
+  "record_name": "100",
+  "sampling_frequency": 360,
+  "samples_per_signal": 650000,
+  "files": [
+    {
+      "name": "100.dat",
+      "format": 212,
+      "signals": [
+        {
+          "description": "MLII",
+          "adc_gain": 200,
+          "adc_resolution": 11,
+          "adc_zero": 1024,
+          "initial_value": 995,
+          "checksum": -22131
+        },
+        {
+          "description": "V5",
+          "adc_gain": 200,
+          "adc_resolution": 11,
+          "adc_zero": 1024,
+          "initial_value": 1011,
+          "checksum": 20052
+        }
+      ]
+    }
+  ],
+  "comments": ["69 M 1085 1629 x1", "Aldomet, Inderal"]
+}

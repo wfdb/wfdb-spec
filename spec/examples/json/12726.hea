@@ -1,0 +1,46 @@
+{
+  "wfdb_header_version": "1.0",
+  "record_name": "12726",
+  "sampling_frequency": 250,
+  "counter_frequency": 24000,
+  "samples_per_signal": 825000,
+  "start_time": "15:08:24",
+  "files": [
+    {
+      "name": "12726.dat",
+      "format": 16,
+      "signals": [
+        {
+          "description": "ABP",
+          "adc_gain": 64.02,
+          "baseline": 4,
+          "units": "mmHg",
+          "adc_resolution": 16,
+          "initial_value": 4004,
+          "checksum": -26056
+        },
+        {
+          "description": "ECG",
+          "adc_gain": 6554,
+          "units": "mV",
+          "adc_resolution": 16,
+          "initial_value": -12996,
+          "checksum": -24904
+        },
+        {
+          "description": "Angle",
+          "adc_gain": 174.83,
+          "baseline": 11204,
+          "units": "degrees",
+          "adc_resolution": 16,
+          "initial_value": 11196,
+          "checksum": 11564
+        }
+      ]
+    }
+  ],
+  "comments": [
+    "<age>: 28  <sex>: M  <Height>: 170  <Weight>: 64",
+    "Produced by xform from record 12726_orig, beginning at 0:0"
+  ]
+}
